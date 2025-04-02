@@ -9,7 +9,7 @@ export default function StudentAndEducator() {
           For Students and Educators
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <a href="/students">
+          <a href="/learning">
             <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-yellow-100 p-8 rounded-lg shadow-md"
@@ -24,7 +24,7 @@ export default function StudentAndEducator() {
               </ul>
             </motion.div>
           </a>
-          <a href="/educators">
+          <a href="/learning">
             <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-indigo-100 p-8 rounded-lg shadow-md"

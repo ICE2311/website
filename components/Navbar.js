@@ -1,13 +1,14 @@
 "use client";
 import { FaSearch } from "react-icons/fa";
 import React, { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { elements } from "@/data/Elementsdata";
+import { UserButton, useSession } from '@clerk/clerk-react'
+import { elements } from "./../data/Elementsdata";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
-  const { data: session } = useSession();
+  const { isLoaded, session, isSignedIn } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredElements, setFilteredElements] = useState(elements);
@@ -123,66 +124,15 @@ const Navbar = () => {
           </div>
           {session && (
             <div
-              className="relative"
+              className="relative hidden lg:block"
               onMouseEnter={() => setIsMenuOpen(true)}
               onMouseLeave={() => setIsMenuOpen(false)}
             >
-              <button
-                id="dropdownHoverButton"
-                className="text-white bg-blue-700 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center dark:bg-violet-600 dark:focus:ring-blue-800"
-                type="button"
-                onClick={toggleMenu}
-              >
-                Profile
-                <svg
-                  className="w-2.5 h-2.5 ms-3"
-                  aria-hidden="true"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-              {isMenuOpen && (
-                <div className="absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-34 dark:bg-gray-700 z-50">
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                    <li>
-                      <Link
-                        href="/dashboard"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/table"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Periodic Table
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => signOut()}
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Sign out
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              )}
+              <UserButton />
             </div>
           )}
           {!session && (
-            <Link href="/login">
+            <Link href="/sign-in">
               <button
                 type="button"
                 className="hidden px-6 py-2 font-semibold rounded lg:block bg-violet-600 dark:bg-violet-600 dark:text-gray-50"
@@ -193,6 +143,9 @@ const Navbar = () => {
           )}
         </div>
         {/* Mobile Menu Button */}
+        <div className=" lg:hidden items-center space-x-4">
+          <UserButton />
+        </div>
         <button
           title="Open menu"
           type="button"
@@ -234,14 +187,16 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/login">
-                <button
-                  type="button"
-                  className="block w-full py-2 px-4 font-semibold rounded dark:bg-violet-600 dark:text-gray-50"
-                >
-                  SignUP
-                </button>
-              </Link>
+              {!session && (
+                <Link href="/sign-in">
+                  <button
+                    type="button"
+                    className="block w-full py-2 px-4 font-semibold rounded dark:bg-violet-600 dark:text-gray-50"
+                  >
+                    SignUP
+                  </button>
+                </Link>
+              )}
             </li>
           </ul>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { elements } from "@/data/Elementsdata";
+import { elements } from "data/Elementsdata.js";
 
 const PeriodicTable = () => {
   const [hoveredElement, setHoveredElement] = useState(null);
